@@ -6,10 +6,27 @@ export const userSchema:Schema<UserModel> = new Schema({
         type: String,
         required: true,
     },
-    cellphone: {
-        type: Schema.Types.Number,
+    lastName: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    cellPhone: {
+        type: Number,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    pets: {
+        type: [Schema.Types.ObjectId],
         required: false,
     },
-},{versionKey:false})
+},{versionKey:false })
 
 export default mongoose.model<UserModel>('User', userSchema)
