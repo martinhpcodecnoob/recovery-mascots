@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 
 import User from "../schemas/User";
 
-import { registerSchema, loginSchema } from "utils/joi/auth-validator";
-import { generateBearerToken } from "utils/jwt";
+import { registerSchema, loginSchema } from "../utils/joi/auth-validator";
+import { generateBearerToken } from "../utils/jwt";
 
 export const register = async (req: Request, res: Response) => {
     try {
