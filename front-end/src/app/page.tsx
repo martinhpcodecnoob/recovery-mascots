@@ -1,11 +1,6 @@
-import ButtonAuth from "@/components/ButtonAuth";
+import Image from "next/image";
+import LandingPage from "./components/LandingPage";
 
-const HomePage = () => {
-    return (
-        <div>
-            <h1>Home Page</h1>
-            <ButtonAuth />
-        </div>
-    );
-};
-export default HomePage;
+export default function Home() {
+  return <LandingPage />
+}
