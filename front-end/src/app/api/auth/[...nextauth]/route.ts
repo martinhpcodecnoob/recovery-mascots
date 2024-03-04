@@ -17,6 +17,7 @@ declare module "next-auth" {
 }
 
 const handler = NextAuth({
+    secret:process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             name:"Recovery-mascots",
