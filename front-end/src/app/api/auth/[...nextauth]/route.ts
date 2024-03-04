@@ -1,5 +1,20 @@
-import NextAuth from 'next-auth' 
+import { login } from '@/utils/api';
+import NextAuth, { DefaultSession } from 'next-auth' 
 import CredentialsProvider from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+    interface Session {
+        user:{
+            id?: string
+            accessToken:string
+
+        } & DefaultSession["user"]
+    }
+
+    interface User{
+        accessToken?:string
+    }
+}
 
 const handler = NextAuth({
     providers: [
@@ -10,35 +25,56 @@ const handler = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                const user = {id:'1',name:'Martin Hernandez',email:"hp.u.smile@gmnil.com"}
-                if (user) {
-                    return user
+                
+                console.log("ESTAS SON LAS CREDENCIALES: ",credentials);
+                if (
+                    !credentials ||
+                    typeof credentials.email !== "string" ||
+                    typeof credentials.password !== "string"
+                ) {
+                return null;
+                }
+                const response = await login(credentials)
+                const data = response.data
+
+                if (data) {
+                    const {user} = data
+                    return{
+                        id:user._id,
+                        name:user.name,
+                        email:user.email,
+                        accessToken:user.accessToken
+                    }
                 } else {
                     return null
                 }
-                // const res = await fetch(
-                // `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-                // {
-                //     method: "POST",
-                //     body: JSON.stringify({
-                //     email: credentials?.email,
-                //     password: credentials?.password,
-                //     }),
-                //     headers: { "Content-Type": "application/json" },
-                // }
-                // );
-                // const user = await res.json();
                 
-                // if (user.error) {
-                //     console.log("Error: ",user);
-                    
-                //     throw user;
-                // }
-        
-                // return user;
             },
             }),
         ],
+    callbacks:{
+        async signIn({user}) {
+            return true
+        },
+        async jwt({token,user}) {
+            if (user && typeof user.accessToken === 'string') {
+                token.accessToken = user.accessToken
+            }
+            if (user && typeof user.id === 'string') {
+                token.id = user.id
+            }
+            return token
+        },
+        async session({token,session}) {
+            if (token && typeof token.accessToken === 'string') {
+                session.user.accessToken = token.accessToken
+            }
+            if (token && typeof token.id === 'string') {
+                session.user.id = token.id
+            }
+            return session
+        }
+    }
 })
 
 export {handler as GET, handler as POST}

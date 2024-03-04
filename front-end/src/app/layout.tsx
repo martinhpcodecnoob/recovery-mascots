@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionAuthProvider>
           <header>
-            <Navbar />
+            {/* <Navbar /> */}
           </header>
           {children}
         </SessionAuthProvider>
