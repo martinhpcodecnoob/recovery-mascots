@@ -25,8 +25,6 @@ const handler = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                
-                console.log("ESTAS SON LAS CREDENCIALES: ",credentials);
                 if (
                     !credentials ||
                     typeof credentials.email !== "string" ||
