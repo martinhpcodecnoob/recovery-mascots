@@ -1,5 +1,7 @@
 import { Document, Number, Schema } from 'mongoose';
 
+const statusEnum = ['perdido', 'encontrado', 'en casa'];
+
 export interface Pet {
     _id?: any;
     name: string;
@@ -9,7 +11,7 @@ export interface Pet {
     category: string;
     description: string;
     images: [string];
-    status: string;
+    status: typeof statusEnum[number];
     userId: Schema.Types.ObjectId;
 }
 

@@ -33,6 +33,7 @@ export const petSchema:Schema<PetModel> = new Schema({
     },
     status: {
         type: String,
+        enum: ["perdido","encontrado","en casa"],
         required: true,
     },
     userId: {
