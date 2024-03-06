@@ -8,7 +8,7 @@ import { generateBearerToken } from "../utils/jwt";
 export const createDefaultAdmin = async () => {
     const defaultAdminEmail = 'julioxcc4@gmail.com';
     const defaultAdminPassword = 'hola1234';
-  //nombre
+    
     const existingAdmin = await Admin.findOne({ email: defaultAdminEmail });
   
     if (!existingAdmin) {

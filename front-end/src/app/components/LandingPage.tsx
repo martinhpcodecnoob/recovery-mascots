@@ -12,8 +12,8 @@ const LandingPage = () => {
       />
       <div className="absolute top-2/3 left-2/3 md:block md:top-1/4 md:left-1/3 transform md:-translate-x-1/2 md:-translate-y-1/2 bg-hero_ligth_secondary rounded-full w-48 h-48"></div>
       <div className="absolute top-0 left-1/2 md:block md:top-1/2 md:left-0 transform md:-translate-x-1/2 md:-translate-y-1/2 bg-hero_ligth_secondary rounded-full w-96 h-96"></div>
-      <div className="absolute -bottom-32 right-1/2 md:block md:top-0 md:right-0 transform md:-translate-x-1/2 md:-translate-y-1/2 bg-hero_ligth_secondary rounded-full w-96 h-96"></div>
-      <div className="absolute -top-16 right-2/3 md:block md:-bottom-1/4 md:right-20 bg-hero_ligth_secondary rounded-full w-96 h-96"></div>
+      <div className="absolute -bottom-32 right-1/2 md:block md:bottom-0 md:right-0 bg-hero_ligth_secondary rounded-full w-96 h-96"></div>
+      <div className="absolute -top-16 right-2/3 md:block md:bottom-0 md:right-1/4 bg-hero_ligth_secondary rounded-full w-96 h-96"></div>
       <div className="flex h-full w-full items-center justify-center ">
         <div className="flex flex-col w-full h-full md:w-3/4 justify-center items-center md:items-center">
           <h1 className="max-w-md text-2xl md:text-lg lg:text-2xl xl:text-3xl font-semibold font-sans text-center leading-tight z-50 m-6">
