@@ -28,6 +28,6 @@ app.use(
 )
 
 app.use(express.json())
-app.use('/api/mascots', router)
+app.use('/api/pets', router)
 
 export {app}
