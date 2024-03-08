@@ -17,7 +17,7 @@ export const register = async (req: Request, res: Response) => {
             });
             return res.status(400).json({ error: "Datos de registro no válidos" });
         }
-        const { name, lastName, email, cellphone, password } = validationResult.value;
+        const { name, lastName , email, cellPhone, password } = validationResult.value;
 
         const existingUser = await User.findOne({ email });
 
@@ -30,7 +30,7 @@ export const register = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password.toString(), 10);
 
         const newUser = new User({
-            name, lastName, email, cellphone, password: hashedPassword
+            name, lastName , email, cellPhone, password: hashedPassword
         });
 
         await newUser.save();
@@ -60,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
   
       const existingUser = await User.findOne(
         { email },
-        "name email cellphone"
+        "name lastName email cellPhone password"
       );
   
       if (!existingUser) {
@@ -68,7 +68,7 @@ export const login = async (req: Request, res: Response) => {
           .status(404)
           .json({ error: "El correo electrónico no está registrado" });
       }
-  
+      
       const passwordMatch = bcrypt.compareSync(password, existingUser.password);
   
       if (!passwordMatch) {
