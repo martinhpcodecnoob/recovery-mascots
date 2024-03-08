@@ -17,16 +17,28 @@ export const createUser = async(req:Request,res:Response) => {
     }
 }
 
-export const getUsers = async(req:Request,res:Response) => {
+export const getUsers = async (req: Request, res: Response) => {
     try {
-        const users = await User.find()
-        if (!users) {
-            return res.status(401).json({message:"No existen usuarios"})
-        }
-        
-        return res.status(200).json({message:"Encontrados",users})
+        const users = await User.find();
+        res.status(200).json(users);
     } catch (error) {
-        console.log();
-        return res.status(500).json({message:'Error del servidor',error})
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los usuarios' });
     }
-}
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener el usuario' });
+    }
+};
