@@ -14,7 +14,7 @@ type TermsProps = {
 const Terms = ({ control, errors, name }: TermsProps) => {
   return (
     <div className="flex flex-col items-center justify-center w-full md:w-full">
-      <div className="inline-flex items-center w-full md:w-full">
+      <div className="flex items-center justify-center w-full md:w-full">
         <label
           className="relative flex items-center py-3 rounded-full cursor-pointer"
           htmlFor="checkbox"
@@ -53,7 +53,7 @@ const Terms = ({ control, errors, name }: TermsProps) => {
           </span>
         </label>
         <div className="ml-3">
-          <span className="text-[#1A1A1A] text-xl lg:text-2xl font-medium flex flex-wrap">
+          <span className="text-[#1A1A1A] text-xl lg:text-2xl font-medium flex md:flex-wrap">
             {" "}
             Acepto los{" "}
             <Link

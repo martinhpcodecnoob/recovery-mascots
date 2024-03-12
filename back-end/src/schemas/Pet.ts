@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 import { PetModel } from "../models/pet";
 
+const PetCategoryEnum = ["Perro", "Gato"];
+
 export const petSchema:Schema<PetModel> = new Schema({
     name: {
         type: String,
@@ -21,6 +23,7 @@ export const petSchema:Schema<PetModel> = new Schema({
     },
     category: {
         type: String,
+        enum: PetCategoryEnum,
         required: true,
     },
     description: {
@@ -34,7 +37,8 @@ export const petSchema:Schema<PetModel> = new Schema({
     status: {
         type: String,
         enum: ["perdido","encontrado","en casa"],
-        required: true,
+        default: "en casa", 
+        required: false,
     },
     userId: {
         type: Schema.Types.ObjectId,

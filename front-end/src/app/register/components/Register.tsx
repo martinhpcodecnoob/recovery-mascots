@@ -37,7 +37,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full p-4 bg-hero_ligth_secondary">
+    <div className="flex flex-col justify-center items-center w-full h-[100vh] p-4 bg-hero_ligth_secondary">
+      <div className="flex flex-col justify-center  items-center w-full">
       <h1 className="bg-hero_secondary text-xl text-center text-white font-semibold w-full h-8">Registro de Usuario</h1>
       <div className="flex lg:flex-row flex-col justify-center items-center w-full h-full mt-4">
         <Name control={registerControl} errors={registerErrors} name="name" />
@@ -75,6 +76,7 @@ const Register = () => {
       <button className="bg-hero_secondary px-5 py-2 rounded-lg text-center text-white font-medium">
         Crear Cuenta
       </button>
+      </div>
     </div>
   );
 };
