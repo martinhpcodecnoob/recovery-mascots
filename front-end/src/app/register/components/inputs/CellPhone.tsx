@@ -24,7 +24,8 @@ const Email = ({ control, errors, name }: CellPhoneProps) => {
               className="border rounded-lg py-2 px-3 bg-white w-full text-xl text-black "
               name={name}
               type="number"
-              value={typeof field.value === "string" ? field.value : ""}
+              onChange={(e) => field.onChange(Number(e.target.value))}
+              value={field.value ? Number(field.value) : undefined}
               placeholder="Celular"
               id={name}
             />
