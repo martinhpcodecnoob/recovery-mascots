@@ -35,7 +35,7 @@ const Name = ({ control, errors, name }: NameProps) => {
           {errors.name.message}
         </p>
       ) : (
-        <div className=" h-[15px] mb-3  2xl:h-[30px] "></div>
+        <div className=" h-[15px] mb-3  2xl:h-[30px]"></div>
       )}
     </div>
   );

@@ -10,14 +10,14 @@ type CellPhoneProps = {
   name: keyof RegisterModel;
 };
 
-const Email = ({ control, errors, name }: CellPhoneProps) => {
+const CellPhone = ({ control, errors, name }: CellPhoneProps) => {
   return (
     <div className="w-[80%] h-[30%] mb-6 flex flex-col justify-center items-center md:w-[60%]">
       <div className="flex flex-col w-full items-center mb-2">
         <Controller
           name={name}
           control={control}
-          defaultValue=""
+          defaultValue={0}
           render={({ field }) => (
             <input
               {...field}
@@ -25,7 +25,7 @@ const Email = ({ control, errors, name }: CellPhoneProps) => {
               name={name}
               type="number"
               onChange={(e) => field.onChange(Number(e.target.value))}
-              value={field.value ? Number(field.value) : undefined}
+              value={field.value ? Number(field.value) : ""}
               placeholder="Celular"
               id={name}
             />
@@ -43,4 +43,4 @@ const Email = ({ control, errors, name }: CellPhoneProps) => {
   );
 };
 
-export default Email;
+export default CellPhone;

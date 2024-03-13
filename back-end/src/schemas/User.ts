@@ -15,7 +15,7 @@ export const userSchema:Schema<UserModel> = new Schema({
         required: true,
         unique: true,
     },
-    cellphone: {
+    cellPhone: {
         type: Number,
         required: true,
     },
