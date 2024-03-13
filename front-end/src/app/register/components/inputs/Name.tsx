@@ -12,8 +12,8 @@ type NameProps = {
 
 const Name = ({ control, errors, name }: NameProps) => {
   return (
-    <div className="w-[80%] h-[30%] mb-6 flex flex-col justify-center items-center md:w-[60%]">
-      <div className="flex flex-col w-full items-center mb-2">
+    <div className="w-[80%] h-[30%] mb-6 md:mb-0 flex flex-col justify-center items-center md:w-[60%] px-4">
+      <div className="flex flex-col w-full items-center md:mb-0 mb-2">
         <Controller
           name={name}
           control={control}
@@ -35,7 +35,7 @@ const Name = ({ control, errors, name }: NameProps) => {
           {errors.name.message}
         </p>
       ) : (
-        <div className=" h-[15px] mb-3  2xl:h-[30px]"></div>
+        <div className=" h-[15px] mb-3 2xl:h-[30px]"></div>
       )}
     </div>
   );

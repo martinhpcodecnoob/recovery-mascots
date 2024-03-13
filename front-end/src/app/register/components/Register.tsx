@@ -4,11 +4,14 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ToastContainer, toast } from "react-toastify";
 
 import { registerSchema } from "@/app/schemas/auth.schema";
 import { RegisterModel } from "@/app/models/auth.model";
 
 import { register } from "@/utils/api";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Name,
@@ -34,13 +37,23 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmitRegister = async ({ acceptTerms, confirmPassword, ...restData }: RegisterModel) => {
+  const onSubmitRegister = async ({
+    acceptTerms,
+    confirmPassword,
+    ...restData
+  }: RegisterModel) => {
     setLoading(true);
     try {
       const registerResponse = await register(restData);
-      if (registerResponse.status === 200) setSuccess(true);
-      else setError(true);
+      if (registerResponse.status === 200) {
+        toast.success("Registro exitoso");
+        setSuccess(true);
+      } else {
+        toast.error("Error");
+        setError(true);
+      }
     } catch (error) {
+      toast.error("Error");
       setError(true);
       console.error("Error al intentar registrar una cuenta", error);
     } finally {
@@ -50,6 +63,19 @@ const Register = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-[100vh] p-4 bg-hero_ligth_secondary">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        limit={1}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="colored"
+      />
       <form
         className="flex flex-col justify-center items-center w-full"
         onSubmit={handleRegisterSubmit(onSubmitRegister)}
@@ -95,51 +121,19 @@ const Register = () => {
           name="acceptTerms"
         />
         <button
-          className="bg-hero_secondary px-5 py-2 rounded-lg text-center text-white font-medium relative"
+          type="submit"
+          className={`rounded-full py-2 px-5 ${
+            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-hero_secondary text-white'
+          } w-1/4`}
           disabled={loading}
         >
-          {loading && (
-            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-              <div className="w-6 h-6 border-2 border-white rounded-full border-t-white animate-spin"></div>
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2" />
             </div>
+          ) : (
+            'Crear Cuenta'
           )}
-          {!loading && success && (
-            <span className="absolute px-5 py-2 rounded-lg top-0 left-0 w-full h-full flex justify-center items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-6 h-6 text-green-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </span>
-          )}
-          {!loading && error && (
-            <span className="absolute px-5 py-2 rounded-lg top-0 left-0 w-full h-full flex justify-center items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-6 h-6 text-red-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </span>
-          )}
-          {!loading && !success && !error && "Crear Cuenta"}
         </button>
       </form>
     </div>

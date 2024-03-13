@@ -12,8 +12,8 @@ type EmailProps = {
 
 const Email = ({ control, errors, name }: EmailProps) => {
   return (
-    <div className="w-[80%] h-[30%] mb-6 flex flex-col justify-center items-center md:w-[60%]">
-      <div className="flex flex-col w-full items-center mb-2">
+    <div className="w-[80%] h-[30%] mb-6 md:mb-0 flex flex-col justify-center items-center md:w-[60%] px-4">
+      <div className="flex flex-col w-full items-center mb-2 md:mb-0">
         <Controller
           name={name}
           control={control}

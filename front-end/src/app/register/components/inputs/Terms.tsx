@@ -68,9 +68,9 @@ const Terms = ({ control, errors, name }: TermsProps) => {
         </div>
       </div>
       {errors && errors.acceptTerms ? (
-        <p className="text-red-500 h-[15px]">{errors.acceptTerms.message}</p>
+        <p className="text-red-600 h-[15px] mb-3 2xl:h-[30px] 2xl:text-xl">{errors.acceptTerms.message}</p>
       ) : (
-        <div className="h-[15px]"></div>
+        <div className="h-[15px] mb-3  2xl:h-[30px]"></div>
       )}
     </div>
   );
