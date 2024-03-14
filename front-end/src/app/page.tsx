@@ -1,14 +1,11 @@
-import Image from "next/image";
+// import { usePetsUser } from "@/hooks/usePetsUser";
+import Link from "next/link";
 import LandingPage from "./components/LandingPage";
-import ButtonAuth from "@/components/ButtonAuth";
-import Navbar from "./components/Navbar";
 
 export default function Home() {
+  // const petsUser = usePetsUser()
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
       <main>
         <LandingPage/>
       </main>

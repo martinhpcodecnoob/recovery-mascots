@@ -1,5 +1,4 @@
-'use client'
-
+import Link from 'next/link';
 import React from 'react'
 
 const Navbar = () => {
@@ -8,7 +7,7 @@ const Navbar = () => {
           <div className="text-identipet text-2xl font-bold">Identipet</div>
           <div>
             <button className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2">Register</button>
-            <button className="bg-green-500 text-white py-2 px-4 rounded-md">Login</button>
+            <Link href={'/login'} className="bg-green-500 text-white py-2 px-4 rounded-md">Login</Link>
           </div>
         </nav>
       );

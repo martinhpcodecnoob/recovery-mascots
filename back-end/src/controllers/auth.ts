@@ -17,7 +17,7 @@ export const register = async (req: Request, res: Response) => {
             });
             return res.status(400).json({ error: "Datos de registro no válidos" });
         }
-        const { name, lastName , email, cellPhone, password } = validationResult.value;
+        const { name, lastName , email, cellphone, password } = validationResult.value;
 
         const existingUser = await User.findOne({ email });
 
@@ -30,7 +30,7 @@ export const register = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password.toString(), 10);
 
         const newUser = new User({
-            name, lastName , email, cellPhone, password: hashedPassword
+            name, lastName , email, cellphone, password: hashedPassword
         });
 
         await newUser.save();

@@ -8,11 +8,28 @@ interface ChildrenReact{
 }
 
 const TanstackProvider = ({children}:ChildrenReact) => {
-    const [queryClient] = useState(() => new QueryClient())
+    // const [queryClient] = useState(() => new QueryClient({
+    //     defaultOptions:{
+    //         queries:{
+    //             refetchOnWindowFocus:false,
+    //             refetchOnMount:false,
+    //             retry:1
+    //         }
+    //     }
+    // }))
+    const queryClient = new QueryClient({
+        defaultOptions:{
+            queries:{
+                refetchOnWindowFocus:false,
+                refetchOnMount:false,
+                retry:1
+            }
+        }
+    })
     return(
         <QueryClientProvider client={queryClient}>
             {children}
-            {/* <ReactQueryDevtools initialIsOpen={false}/> */}
+            <ReactQueryDevtools initialIsOpen={false}/>
         </QueryClientProvider>
     )
 } 
