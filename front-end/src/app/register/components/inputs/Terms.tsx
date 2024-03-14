@@ -59,7 +59,7 @@ const Terms = ({ control, errors, name }: TermsProps) => {
             <Link
               href={"/terms-and-conditions"}
               target="_blank"
-              className="text-hero_accent underline"
+              className="text-blue-600 underline"
             >
               Términos y Condiciones
             </Link>{" "}
@@ -68,9 +68,9 @@ const Terms = ({ control, errors, name }: TermsProps) => {
         </div>
       </div>
       {errors && errors.acceptTerms ? (
-        <p className="text-red-600 h-[15px] mb-3 2xl:h-[30px] 2xl:text-xl">{errors.acceptTerms.message}</p>
+        <p className="text-red-600 h-[15px] mb-4 2xl:h-[30px] 2xl:text-xl">{errors.acceptTerms.message}</p>
       ) : (
-        <div className="h-[15px] mb-3  2xl:h-[30px]"></div>
+        <div className="h-[15px] mb-4  2xl:h-[30px]"></div>
       )}
     </div>
   );

@@ -25,7 +25,6 @@ import {
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
   type RegisterSchema = z.infer<typeof registerSchema>;
@@ -47,13 +46,15 @@ const Register = () => {
       const registerResponse = await register(restData);
       if (registerResponse.status === 200) {
         toast.success("Registro exitoso");
-        setSuccess(true);
+      }
+      if (registerResponse.status === 409) {
+        toast.error(registerResponse.data.error);
       } else {
-        toast.error("Error");
+        toast.error(registerResponse.data.error);
         setError(true);
       }
     } catch (error) {
-      toast.error("Error");
+      toast.error(error ? error.toString() : "Error del servidor");
       setError(true);
       console.error("Error al intentar registrar una cuenta", error);
     } finally {
@@ -123,8 +124,10 @@ const Register = () => {
         <button
           type="submit"
           className={`rounded-full py-2 px-5 ${
-            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-hero_secondary text-white'
-          } w-1/4`}
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-hero_secondary text-white"
+          } w-1/2 md:w-1/4`}
           disabled={loading}
         >
           {loading ? (
@@ -132,7 +135,7 @@ const Register = () => {
               <div className="animate-spin rounded-full h-5 w-5 border-t-2" />
             </div>
           ) : (
-            'Crear Cuenta'
+            "Crear Cuenta"
           )}
         </button>
       </form>
