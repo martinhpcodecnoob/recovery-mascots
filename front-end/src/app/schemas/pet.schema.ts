@@ -12,7 +12,7 @@ export const petCreateSchema = z.object({
     breed: z
         .string()
         .min(1, "La raza de la mascota es requerida"),
-    weight: z.number().min(1, "Introduzca el peso de su mascota").min(1, "Peso minimo necesario").max(999, "Peso maximo excedido"),
+    weight: z.number().min(1, "Introduzca el peso de su mascota"),
     category: z
         .string()
         .min(1, "Categoria requerida"),

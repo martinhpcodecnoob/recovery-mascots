@@ -45,7 +45,7 @@ const Register = () => {
     try {
       const registerResponse = await register(restData);
       if (registerResponse.status === 200) {
-        toast.success("Registro exitoso");
+        toast.success("Cuenta registrada exitosamente");
       }
       if (registerResponse.status === 409) {
         toast.error(registerResponse.data.error);
