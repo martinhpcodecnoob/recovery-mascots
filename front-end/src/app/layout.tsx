@@ -13,16 +13,21 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children,modal
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={inter.className}>
         <SessionAuthProvider>
           <TanstackProvider>
+            <header>
+              <Navbar />
+            </header>
             {children}
+            {modal}
           </TanstackProvider>
         </SessionAuthProvider>
       </body>

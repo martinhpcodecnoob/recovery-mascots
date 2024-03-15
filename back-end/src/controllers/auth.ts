@@ -10,14 +10,14 @@ export const register = async (req: Request, res: Response) => {
   try {
     const validationResult = registerSchema.validate(req.body);
 
-    if (validationResult.error) {
-      console.error({
-        error: "Datos de registro no válidos",
-        details: validationResult.error.details,
-      });
-      return res.status(400).json({ error: "Datos de registro no válidos" });
-    }
-    const { name, lastName, email, cellPhone, password } = validationResult.value;
+        if (validationResult.error) {
+            console.error({
+                error: "Datos de registro no válidos",
+                details: validationResult.error.details,
+            });
+            return res.status(400).json({ error: "Datos de registro no válidos" });
+        }
+        const { name, lastName , email, cellPhone, password } = validationResult.value;
 
     const existingUser = await User.findOne({ email });
 
@@ -29,9 +29,9 @@ export const register = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password.toString(), 10);
 
-    const newUser = new User({
-      name, lastName, email, cellPhone, password: hashedPassword
-    });
+        const newUser = new User({
+            name, lastName , email, cellPhone, password: hashedPassword
+        });
 
     await newUser.save();
 
