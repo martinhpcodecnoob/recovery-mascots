@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 
 const LandingPage = () => {
@@ -25,9 +26,9 @@ const LandingPage = () => {
             con <span className="text-identipet">QR</span>, la forma más
             inteligente de cuidar a tus mascotas.
           </h1>
-          <button className="py-3 px-4 bg-hero_secondary rounded-md text-white font-semibold hover:scale-105 hover:shadow-2xl shadow-lg z-50">
+          <Link href={'/login'} className="py-3 px-4 bg-hero_secondary rounded-md text-white font-semibold hover:scale-105 hover:shadow-2xl shadow-lg z-50">
             Mira nuestras mascotas
-          </button>
+          </Link>
         </div>
         <div className="md:w-full md:h-full" />
       </div>

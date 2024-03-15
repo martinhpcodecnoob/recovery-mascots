@@ -6,6 +6,6 @@ const petRouter = express.Router()
 petRouter.post('/create',createPet)
 petRouter.patch('/update',updatePet)
 petRouter.delete('/delete',deletePet)
-petRouter.get('/getPets',getPetsByUserId)
+petRouter.get('/getPets/:userId',getPetsByUserId)
 
 export default petRouter;
