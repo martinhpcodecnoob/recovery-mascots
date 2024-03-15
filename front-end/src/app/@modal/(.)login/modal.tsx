@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 export function Modal({ children }: { children: React.ReactNode }) {
 const router = useRouter();
 const dialogRef = useRef<ElementRef<'dialog'>>(null);
-console.log(dialogRef.current);
+// console.log(dialogRef.current);
 
 useEffect(() => {
     if (!dialogRef.current?.open) {

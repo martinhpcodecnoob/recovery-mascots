@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 const NavbarHome = () => {
 
     const pathname = usePathname()
-    console.log();
+    // console.log();
     
     return (
         <nav className='fixed z-50 mdx:invisible w-full h-14 shadow-xl bg-hero_ligth_secondary'>
