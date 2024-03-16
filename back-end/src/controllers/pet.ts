@@ -13,7 +13,7 @@ export const createPet = async (req: Request, res: Response) => {
             });
             return res.status(400).json({ error: "Datos de registro de mascota no válidos" });
         }
-        const { name, age, breed, weight, category, description, images, status, userId } = validationResult.value;
+        const { name, age, breed, weight, category, description, images, userId } = validationResult.value;
         const newPet = new Pet({
             name,
             age,
@@ -22,7 +22,6 @@ export const createPet = async (req: Request, res: Response) => {
             category,
             description,
             images,
-            status,
             userId
         })
 
@@ -30,7 +29,7 @@ export const createPet = async (req: Request, res: Response) => {
         res.status(201).json(newPet)
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al crear el usuario' });
+        res.status(500).json({ error: 'Error al intentar crear la mascota.' });
     }
 }
 

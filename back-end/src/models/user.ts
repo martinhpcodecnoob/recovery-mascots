@@ -5,7 +5,7 @@ export interface User {
     name: string;
     lastName: string;
     email: string;
-    cellphone: Number;
+    cellPhone: Number;
     password: string;
     pets: [Schema.Types.ObjectId]
 }
