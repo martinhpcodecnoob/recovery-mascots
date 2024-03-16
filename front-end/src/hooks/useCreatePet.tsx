@@ -1,15 +1,15 @@
-import { CreatePetsUserTSInput, CreatePetsUserTSOutput, InterfacePetsUser } from "@/interfaces/pets.interface"
+import { InterfacePetsUser } from "@/interfaces/pets.interface"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URI
 
 interface InterfacReturnData {
     status:number,
-    data?:CreatePetsUserTSOutput,
+    data?:InterfacePetsUser,
     error?:string
 }
 
-const createPet = async(input:CreatePetsUserTSInput): Promise<InterfacReturnData> => {
+const createPet = async(input:Omit<InterfacePetsUser,'_id'>): Promise<InterfacReturnData> => {
     try {
         const response = await fetch(`${URL_BACK}/api/pets/pet/create`,{
             method:'POST',
