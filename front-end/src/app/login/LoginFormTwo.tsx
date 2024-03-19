@@ -8,10 +8,11 @@ import { z } from 'zod'
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 
-
-const LoginForm = () => {
+const LoginFormTwo = () => {
     const router = useRouter()
-    const [urlParams, setUrlParams] = useState<string>()
+    
+    
+    const [urlParams, setUrlParams] = useState<string>('/mypets')
     type LoginSchema = z.infer<typeof loginSchema>
     const {
         handleSubmit,control,
@@ -21,7 +22,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        let param = urlParams.get('p')        
+        let param = urlParams.get('p')
         if (typeof param === 'string') {
             setUrlParams(param)
         }
@@ -29,7 +30,6 @@ const LoginForm = () => {
     
     
     const onSubmit = handleSubmit(async(dataForm:LoginModel) => {
-
         try {
             const signInResponse = await signIn('credentials',{
                 email:dataForm.email,
@@ -37,9 +37,8 @@ const LoginForm = () => {
                 redirect:false
             })
             if (signInResponse?.status) {
+                router.replace(urlParams)
                 console.log("Sesión iniciada correctamente");
-                router.back()
-                return
             } else {
                 console.error("Datos incorrectos, por favor verifique");
             }
@@ -116,4 +115,4 @@ const LoginForm = () => {
 
 
 
-export default LoginForm
+export default LoginFormTwo
