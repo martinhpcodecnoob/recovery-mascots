@@ -7,6 +7,7 @@ import Categories from './components/Categories'
 import CardCategory from './components/CardCategory'
 import CardsCats from './components/CardsCats'
 import CardsDogs from './components/CardsDogs'
+import { usePetsUser } from '@/hooks/usePetsUser'
 
 export interface StateCategories {
     cats?:boolean
@@ -14,6 +15,8 @@ export interface StateCategories {
 }
 const Home = () => {
     const [category, setCategory] = useState<StateCategories | undefined>({cats:true})
+    const petsUserQuery = usePetsUser('65f4c95ee5503ce3857ca635');
+    console.log("Estos son los pets del user: ", petsUserQuery)
     return (
         <>
             <main className='mx-3 mb-[5rem]'>

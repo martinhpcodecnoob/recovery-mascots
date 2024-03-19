@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -46,6 +47,7 @@ const Register = () => {
       const registerResponse = await register(restData);
       if (registerResponse.status === 200) {
         toast.success("Cuenta registrada exitosamente");
+        await signIn('credentials', {email: restData.email, password:restData.password})
       }
       if (registerResponse.status === 409) {
         toast.error(registerResponse.data.error);

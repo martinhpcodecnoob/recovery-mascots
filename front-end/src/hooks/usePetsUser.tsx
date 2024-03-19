@@ -2,7 +2,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { InterfacePetsUser } from "../interfaces/pets.interface";
 
-const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URI
+/* const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URI  */
+const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const getPetUser = async(userId:string):Promise<{ status: number; data?: InterfacePetsUser[]; error?: string }> => {
     try {

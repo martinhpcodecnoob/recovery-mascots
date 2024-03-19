@@ -23,9 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionAuthProvider>
           <TanstackProvider>
-            <header>
-              <Navbar />
-            </header>
+            
             {children}
             {modal}
           </TanstackProvider>

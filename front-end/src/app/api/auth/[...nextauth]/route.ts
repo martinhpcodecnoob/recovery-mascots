@@ -23,7 +23,7 @@ const handler = NextAuth({
             name:"Recovery-mascots",
             credentials: {
                 email: { label: "email", type: "email", placeholder: "test@test.com" },
-                password: { label: "Password", type: "password" },
+                password: { label: "password", type: "password" },
             },
             async authorize(credentials) {
                 if (

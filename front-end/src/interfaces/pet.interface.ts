@@ -8,3 +8,7 @@ export interface PetCreate {
     images: string | string[];
     userId: string;
 }
+
+export interface PetImage {
+    image: FormData;
+}

@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import React from "react";
 import { Controller, Control, FieldErrors } from "react-hook-form";
@@ -43,3 +43,47 @@ const Image = ({ control, errors, name }: ImageProps) => {
 };
 
 export default Image;
+ */
+"use client";
+
+import React, { useState} from 'react'
+import { createImage } from '@/utils/api';
+
+const Image = () => {
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setSelectedImage(file);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    try {
+      if (selectedImage) {
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+        const response = await createImage( formData);
+        console.log("la response:", response)
+        if (response.status === 200) {
+          console.log('Imagen subida exitosamente');
+        } else {
+          console.error('Error al subir la imagen');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <button onClick={handleImageUpload}>Subir imagen</button>
+    </div>
+  );
+}
+
+export default Image
