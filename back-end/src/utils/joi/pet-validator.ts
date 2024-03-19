@@ -29,3 +29,7 @@ export const updatePetValidation = Joi.object({
 export const deletePetValidation = Joi.object({
     id: Joi.string().required(),
 });
+
+export const createImageSchemaValidation = Joi.object({
+    petId: Joi.string().required(),
+});

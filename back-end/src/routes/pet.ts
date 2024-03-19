@@ -1,9 +1,11 @@
 import express from "express";
+import multer from 'multer';
 import {createPet, updatePet, deletePet, getPetsByUserId, createPetImage} from '../controllers/pet'
 
 const petRouter = express.Router()
-const multer = require('multer')
-const upload = multer({dest: 'uploads/'})
+
+//si uso memoria se puede acceder al buffer, si uso el disco duro me dan la ruta y tengo que hacerlo manualmente
+const upload = multer({dest: 'uploads/', storage: multer.memoryStorage()})
 
 petRouter.post('/create',createPet)
 petRouter.patch('/update',updatePet)

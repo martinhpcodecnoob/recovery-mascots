@@ -15,7 +15,7 @@ const getPetUser = async(userId:string):Promise<{ status: number; data?: Interfa
         })
         
         const data = await response.json()
-        console.log("getpetuserss",data);
+        // console.log("getpetuserss",data);
         return { 
             status: response.status,
             data

@@ -46,11 +46,17 @@ export default Image;
  */
 "use client";
 
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import { createImage } from '@/utils/api';
 
-const Image = () => {
+const Image = ({isCreated, petId}: {isCreated: boolean, petId: string}) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  useEffect(() => {
+    if(isCreated){
+      handleImageUpload()
+    }
+  }, [isCreated]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -65,7 +71,8 @@ const Image = () => {
       if (selectedImage) {
         const formData = new FormData();
         formData.append('file', selectedImage);
-        const response = await createImage( formData);
+        formData.append('petId', petId);
+        const response = await createImage(formData);
         console.log("la response:", response)
         if (response.status === 200) {
           console.log('Imagen subida exitosamente');
@@ -81,7 +88,7 @@ const Image = () => {
   return (
     <div>
       <input type="file" accept="image/*" onChange={handleImageChange} />
-      <button onClick={handleImageUpload}>Subir imagen</button>
+       <button onClick={handleImageUpload}>Subir imagen</button>
     </div>
   );
 }

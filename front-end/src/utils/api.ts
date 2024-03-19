@@ -75,7 +75,7 @@ export const createPet  = async (input: PetCreate): Promise<{status:number, data
     }
 }
 
-export const createImage  = async (input: any): Promise<{status:number, data?:any, error?:string}> => {
+export const createImage  = async (input: FormData): Promise<{status:number, data?:any, error?:string}> => {
     try {
 
         const response = await fetch(`${URL_BACK}/api/pets/pet/image`,{
@@ -83,7 +83,6 @@ export const createImage  = async (input: any): Promise<{status:number, data?:an
             body: input,
 
         })
-
         const data = await response.json()
         return {
             status: response.status,

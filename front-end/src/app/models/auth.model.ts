@@ -7,3 +7,8 @@ export interface RegisterModel {
     confirmPassword: string;
     acceptTerms: boolean;
 }
+
+export interface LoginModel {
+    email:string
+    password:string
+}

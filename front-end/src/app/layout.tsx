@@ -23,7 +23,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionAuthProvider>
           <TanstackProvider>
-            
             {children}
             {modal}
           </TanstackProvider>
