@@ -5,11 +5,12 @@ import LandingPage from "./components/LandingPage";
 import useCreatePet from "@/hooks/useCreatePet";
 import { usePetsUser } from "@/hooks/usePetsUser";
 import Navbar from "./components/Navbar";
+import ButtonAuth from "@/components/ButtonAuth";
+
 
 export default function Home() {
   // const petsUser = usePetsUser()
-  const petsUser = usePetsUser('65e542cc0487e468c9e99bc4')
-  const createPet = useCreatePet()
+  // const petsUser = usePetsUser('65e542cc0487e468c9e99bc4')
   
   return (
     <>
@@ -21,10 +22,10 @@ export default function Home() {
       </main>
     </>
   )
-  // return (
-  //   <div>
-  //     <h1>Home Page</h1>
-  //     <ButtonAuth />
-  //   </div>
-  // )
+//   return (
+//     <div>
+//       <h1>Home Page</h1>
+//       <ButtonAuth />
+//     </div>
+//   )
 }

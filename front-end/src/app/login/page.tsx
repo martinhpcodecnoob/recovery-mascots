@@ -3,7 +3,9 @@ import LoginForm from "../@modal/(.)login/LoginForm";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 
+
 export default function page() {
+    
     return (
         <div className="flex justify-center items-center h-[100vh]">
             <div className="w-[20rem] h-[35rem] relative flex flex-col justify-center items-center bg-white rounded-[3rem]">
@@ -15,3 +17,4 @@ export default function page() {
         </div>
     )
 }
+
