@@ -21,52 +21,13 @@ body {
   transform: scale(1.1); /* Hace un pequeño zoom al 110% del tamaño original */
 }
 
-/* .modal-backdrop {
-  z-index: 1000;
-} */
-
-/* .modal {
-  width: 80%;
-  max-width: 500px;
-  height: auto;
-  max-height: 500px;
-  border: none;
-  border-radius: 12px;
-  background-color: white;
-  padding: 20px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 48px;
-  font-weight: 500;
-} */
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 48px;
-  height: 48px;
-  background-color: transparent;
-  border: none;
-  border-radius: 15px; /* Circular shape */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 24px; /* Adjust font size as needed */
+.form-container input:-webkit-autofill,
+.form-container input:-webkit-autofill:hover, 
+.form-container input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #E0DAF9 inset;
 }
 
-.close-button:hover {
-  background-color: #eee;
-}
 
-.close-button:after {
-  content: 'x';
-  color: black;
-}
 
 @layer utilities {
   /* .text-balance {
