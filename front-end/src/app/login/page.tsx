@@ -1,7 +1,7 @@
 // 'use client'
-import LoginForm from "../@modal/(.)login/LoginForm";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
+import LoginFormTwo from "./LoginFormTwo";
 
 
 export default function page() {
@@ -12,7 +12,7 @@ export default function page() {
                 <Link href={'/'} className="absolute top-0 left-0 pl-5 pt-4 text-[2rem] text-identipet"><FaArrowLeft /></Link>
                 <div className="text-[3rem] font-bold text-identipet">Identipet</div>
                 <div>Inicia Sesion</div>
-                <LoginForm/>
+                <LoginFormTwo/>
             </div>
         </div>
     )
