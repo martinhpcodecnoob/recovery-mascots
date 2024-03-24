@@ -17,6 +17,7 @@ app.use(
         allowedHeaders:[
             "Content-Type",
             "Authorization",
+            "X-User-Id",
             "X-Requested-With",
             "Accept",
             "Origin",
