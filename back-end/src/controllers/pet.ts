@@ -175,6 +175,6 @@ export const createPetImage = async (req: Request, res: Response) => {
         res.status(201).json(cloudinaryResult.secure_url);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al intentar crear la mascota.' });
+        res.status(500).json({ error: 'Error al intentar crear la imagen de la mascota.' });
     }
 }

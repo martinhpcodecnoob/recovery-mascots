@@ -15,19 +15,18 @@ const getPetUser = async(userId:string):Promise<{ status: number; data?: Interfa
         })
         
         const data = await response.json()
-        // console.log("getpetuserss",data);
         return { 
             status: response.status,
             data
         }
     } catch (error) {
         console.error(
-            "Error del servidor al intentar traer los pets",
+            "Error del servidor al intentar traer las mascotas de un usuario",
             error
         );
         return {
             status: 500,
-            error: "Error del servidor al intentar traer los pets",
+            error: "Error del servidor al intentar traer las mascotas de un usuario",
         };
     }
 }

@@ -46,15 +46,18 @@ export default Image;
  */
 "use client";
 
-import React, { useState, useEffect} from 'react'
-import { createImage } from '@/utils/api';
+import React, { useState, useEffect, useRef } from "react";
+import { createImage } from "@/utils/api";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdOutlineChangeCircle } from "react-icons/md";
 
-const Image = ({isCreated, petId}: {isCreated: boolean, petId: string}) => {
+const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if(isCreated){
-      handleImageUpload()
+    if (isCreated) {
+      handleImageUpload();
     }
   }, [isCreated]);
 
@@ -63,6 +66,8 @@ const Image = ({isCreated, petId}: {isCreated: boolean, petId: string}) => {
     if (files && files.length > 0) {
       const file = files[0];
       setSelectedImage(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImageUrl(imageUrl);
     }
   };
 
@@ -70,27 +75,67 @@ const Image = ({isCreated, petId}: {isCreated: boolean, petId: string}) => {
     try {
       if (selectedImage) {
         const formData = new FormData();
-        formData.append('file', selectedImage);
-        formData.append('petId', petId);
+        formData.append("file", selectedImage);
+        formData.append("petId", petId);
         const response = await createImage(formData);
-        console.log("la response:", response)
         if (response.status === 200) {
-          console.log('Imagen subida exitosamente');
+          const data = await response.data();
+          const secureUrl = data.secure_url;
+          setImageUrl(secureUrl);
         } else {
-          console.error('Error al subir la imagen');
+          console.error("Error al subir la imagen");
         }
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-       <button onClick={handleImageUpload}>Subir imagen</button>
+    <div className="flex justify-center items-center w-full h-full">
+      <div className="relative flex justify-center items-center w-96 h-96 border-2">
+        {imageUrl ? (
+          <div>
+            <img src={imageUrl} alt="Imagen seleccionada" />
+            <MdOutlineChangeCircle
+              className="absolute bottom-0 left-0 w-12 h-12 cursor-pointer"
+              onClick={() => {
+                if (inputFileRef.current) {
+                  inputFileRef.current.click();
+                }
+              }}
+            />
+            <input
+              ref={inputFileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+            <IoIosAddCircleOutline
+              className="w-24 h-24 cursor-pointer"
+              onClick={() => {
+                if (inputFileRef.current) {
+                  inputFileRef.current.click();
+                }
+              }}
+            />
+            <p className="mt-4">Agrega una imagen de tu mascota</p>
+            <input
+              ref={inputFileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
 
-export default Image
+export default Image;

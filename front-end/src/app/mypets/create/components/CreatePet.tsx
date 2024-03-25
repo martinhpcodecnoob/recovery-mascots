@@ -11,6 +11,10 @@ import { PetModel } from "@/app/models/pet.model";
 
 import "react-toastify/dist/ReactToastify.css";
 
+import useCreatePet from "@/hooks/useCreatePet";
+import { usePetsUser } from "@/hooks/usePetsUser";
+import { Session } from "next-auth";
+
 import {
   Name,
   Age,
@@ -20,11 +24,17 @@ import {
   Description,
   Image,
 } from "./inputs";
-import { createPet } from "@/utils/api";
 
-const CreatePet = () => {
+const CreatePet = ({ session }: { session: Session }) => {
+  const userId = session?.user?.id || "";
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const {
+    mutate: createPetMutation,
+    isSuccess,
+    isError,
+    error,
+  } = useCreatePet();
 
   type CreatePetSchema = z.infer<typeof petCreateSchema>;
   const {
@@ -39,19 +49,21 @@ const CreatePet = () => {
   const onSubmitCreatePet = async (data: PetModel) => {
     setLoading(true);
     try {
-      const createPetResponse = await createPet({...data, images: ["image"], userId:"65f235de79d90941375e8417"});
-      if (createPetResponse.status === 200 || createPetResponse.status === 201 || createPetResponse.status === 204) {
+      const createPetQuery = createPetMutation({
+        ...data,
+        images: ["image"],
+        userId: "65f235de79d90941375e8417",
+      });
+      /* const createPetResponse = await createPet({...data, images: ["image"], userId:"65f235de79d90941375e8417"}); */
+
+      if (isSuccess) {
         toast.success("Mascota creada exitosamente");
       }
-      if (createPetResponse.status === 400) {
-        toast.error(createPetResponse.data.error);
-      } else {
-        toast.error(createPetResponse.data.error);
-        setError(true);
+      if (isError) {
+        toast.error(error.message);
       }
     } catch (error) {
       toast.error(error ? error.toString() : "Error del servidor");
-      setError(true);
       console.error("Error al intentar crear una mascota", error);
     } finally {
       setLoading(false);
@@ -59,7 +71,7 @@ const CreatePet = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-[100vh] p-4 bg-hero_ligth_secondary">
+    <div className="flex flex-col justify-center items-center w-full h-[95vh] p-4 bg-hero_ligth_secondary">
       <ToastContainer
         position="top-center"
         autoClose={1000}
@@ -73,6 +85,7 @@ const CreatePet = () => {
         pauseOnHover={false}
         theme="colored"
       />
+
       <form
         onSubmit={handleCreatePetSubmit(onSubmitCreatePet)}
         className="flex flex-col justify-center items-center w-full"
