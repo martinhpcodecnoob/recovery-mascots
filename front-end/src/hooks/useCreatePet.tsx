@@ -9,14 +9,11 @@ interface InterfacReturnData {
     error?:string
 }
 
-const createPet = async(input:PetCreate): Promise<InterfacReturnData> => {
+const createPet = async(formData: FormData): Promise<InterfacReturnData> => {
     try {
         const response = await fetch(`${URL_BACK}/api/pets/pet/create`,{
             method:'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({...input,  images:["a","a"]})
+            body: formData
         })
     
         const data = await response.json()

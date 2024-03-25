@@ -51,17 +51,48 @@ import { createImage } from "@/utils/api";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineChangeCircle } from "react-icons/md";
 
-const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
+const Image = ({
+  sendDataToParent,
+}: {
+  sendDataToParent: (file: File | undefined) => void;
+}) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (isCreated) {
-      handleImageUpload();
-    }
-  }, [isCreated]);
+  /* useEffect(() => {
+    const handleImageUpload = async () => {
+      try {
+        if (isCreated && selectedImage) {
+          const formData = new FormData();
+          formData.append("file", selectedImage);
+          formData.append("petId", petId);
+          const response = await createImage(formData);
+          if (response.status === 200) {
+            const data = await response.data();
+            const secureUrl = data.secure_url;
+            setImageUrl(secureUrl);
+          } else {
+            console.error("Error al subir la imagen");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    handleImageUpload();
+  }, [isCreated, petId]); */
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // Obtener el primer archivo seleccionado
+    if (file) {
+      sendDataToParent(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImageUrl(imageUrl);
+    }
+  };
+
+  /* const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
@@ -69,9 +100,9 @@ const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
       const imageUrl = URL.createObjectURL(file);
       setImageUrl(imageUrl);
     }
-  };
+  }; */
 
-  const handleImageUpload = async () => {
+  /*   const handleImageUpload = async () => {
     try {
       if (selectedImage) {
         const formData = new FormData();
@@ -89,7 +120,7 @@ const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
+  }; */
 
   return (
     <div className="flex justify-center items-center w-full h-full">
@@ -110,8 +141,15 @@ const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={handleImageChange}
+              onChange={handleFileChange}
             />
+            <button
+              className="hidden"
+              type="button"
+              onClick={() => inputFileRef.current?.click()}
+            >
+              Subir imagen
+            </button>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
@@ -129,7 +167,7 @@ const Image = ({ isCreated, petId }: { isCreated: boolean; petId: string }) => {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={handleImageChange}
+              onChange={handleFileChange}
             />
           </div>
         )}

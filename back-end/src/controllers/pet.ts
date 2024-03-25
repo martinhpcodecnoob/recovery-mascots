@@ -11,6 +11,13 @@ cloudinary.config({
 
 export const createPet = async (req: Request, res: Response) => {
     try {
+        const file = req.file;
+        if (!file || !file.buffer) {
+            console.error({
+                error: "Archivo no encontrado o vacío",
+            });
+            return res.status(400).json({ error: "Archivo no encontrado o vacío" });
+        }
         const validationResult = petSchemaValidation.validate(req.body);
 
         if (validationResult.error) {
@@ -20,7 +27,25 @@ export const createPet = async (req: Request, res: Response) => {
             });
             return res.status(400).json({ error: "Datos de registro de mascota no válidos" });
         }
-        const { name, age, breed, weight, category, description, images, userId } = validationResult.value;
+        const { name, age, breed, weight, category, description, userId } = validationResult.value;
+        let images: string[] = [];
+
+        if (file) {
+            const buffer = file.buffer;
+            const cloudinaryResult = await new Promise((resolve, reject) => {
+                cloudinary.uploader
+                    .upload_stream({}, (err, result) => {
+                        if (err) {
+                            reject(err)
+                        }
+                        resolve(result)
+                    })
+                    .end(buffer)
+            })
+            //@ts-ignore
+            images.push(cloudinaryResult.secure_url);
+        }
+
         const newPet = new Pet({
             name,
             age,
@@ -30,10 +55,11 @@ export const createPet = async (req: Request, res: Response) => {
             description,
             images,
             userId
-        })
+        });
 
-        await newPet.save()
-        res.status(201).json(newPet)
+        await newPet.save();
+
+        res.status(201).json(newPet);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al intentar crear la mascota.' });
@@ -155,7 +181,7 @@ export const createPetImage = async (req: Request, res: Response) => {
         }
 
         const buffer = file.buffer;
-        
+
         const cloudinaryResult = await new Promise((resolve, reject) => {
             cloudinary.uploader
                 .upload_stream({}, (err, result) => {

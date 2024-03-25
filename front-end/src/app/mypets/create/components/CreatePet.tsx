@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,11 +28,15 @@ import {
 const CreatePet = ({ session }: { session: Session }) => {
   const userId = session?.user?.id || "";
 
+  const submitButtonRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+
   const {
     mutate: createPetMutation,
     isSuccess,
     isError,
+    data: createPetResponse,
     error,
   } = useCreatePet();
 
@@ -48,14 +52,21 @@ const CreatePet = ({ session }: { session: Session }) => {
 
   const onSubmitCreatePet = async (data: PetModel) => {
     setLoading(true);
+    
     try {
-      const createPetQuery = createPetMutation({
-        ...data,
-        images: ["image"],
-        userId: "65f235de79d90941375e8417",
-      });
-      /* const createPetResponse = await createPet({...data, images: ["image"], userId:"65f235de79d90941375e8417"}); */
+      const formData = new FormData();
 
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    if (file) {
+      console.log("Nombre dek file", file)
+      formData.append("file", file);
+    }
+
+    // Realiza la mutación con los datos del FormData
+    await createPetMutation(formData);
       if (isSuccess) {
         toast.success("Mascota creada exitosamente");
       }
@@ -70,8 +81,16 @@ const CreatePet = ({ session }: { session: Session }) => {
     }
   };
 
+  const receiveDataFromChild = async (file: File | undefined) => {
+    if (file) {
+      setFile(file)
+    } else {
+      setFile(null)
+    }
+};
+
   return (
-    <div className="flex flex-col justify-center items-center w-full h-[95vh] p-4 bg-hero_ligth_secondary">
+    <div className="flex flex-col justify-center items-center w-full p-4 bg-hero_ligth_secondary">
       <ToastContainer
         position="top-center"
         autoClose={1000}
@@ -93,45 +112,53 @@ const CreatePet = ({ session }: { session: Session }) => {
         <h1 className="bg-hero_secondary text-xl text-center text-white font-semibold w-full h-8">
           Crear mascota
         </h1>
-        <div className="flex lg:flex-row flex-col justify-center items-center w-full h-full mt-4">
-          <Name
-            control={createPetControl}
-            errors={createPetErrors}
-            name="name"
-          />
-          <Age control={createPetControl} errors={createPetErrors} name="age" />
+        <div className="flex flex-row w-full h-full">
+
+        <div className="w-full h-full">
+          <div className="flex flex-col justify-center items-center w-full mt-4">
+            <Name
+              control={createPetControl}
+              errors={createPetErrors}
+              name="name"
+            />
+            <Age
+              control={createPetControl}
+              errors={createPetErrors}
+              name="age"
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center w-full">
+            <Breed
+              control={createPetControl}
+              errors={createPetErrors}
+              name="breed"
+            />
+            <Weight
+              control={createPetControl}
+              errors={createPetErrors}
+              name="weight"
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center w-full">
+            <Category
+              control={createPetControl}
+              errors={createPetErrors}
+              name="category"
+            />
+            <Description
+              control={createPetControl}
+              errors={createPetErrors}
+              name="description"
+            />
+          </div>
         </div>
-        <div className="flex lg:flex-row flex-col justify-center items-center w-full h-full">
-          <Breed
-            control={createPetControl}
-            errors={createPetErrors}
-            name="breed"
-          />
-          <Weight
-            control={createPetControl}
-            errors={createPetErrors}
-            name="weight"
-          />
+        <div className="w-full h-full">
+          <Image sendDataToParent={receiveDataFromChild}/>
         </div>
-        <div className="flex lg:flex-row flex-col justify-center items-center w-full h-full">
-          <Category
-            control={createPetControl}
-            errors={createPetErrors}
-            name="category"
-          />
-          <Description
-            control={createPetControl}
-            errors={createPetErrors}
-            name="description"
-          />
         </div>
-        {/* <Image
-          control={createPetControl}
-          errors={createPetErrors}
-          name="images"
-        /> */}
         <button
           type="submit"
+          ref={submitButtonRef}
           className={`rounded-full py-2 px-5 mt-4 ${
             loading
               ? "bg-gray-400 cursor-not-allowed"

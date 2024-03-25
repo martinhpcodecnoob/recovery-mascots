@@ -9,7 +9,7 @@ export const petSchemaValidation = Joi.object({
     weight: Joi.number().optional(),
     category: Joi.string().valid(...allowedCategories).required(),
     description: Joi.string().required(),
-    images: Joi.array().items(Joi.string()).required(),
+    images: Joi.array().items(Joi.string()).optional(),
     userId: Joi.string().allow(null, '').optional(),
 });
 
