@@ -3,6 +3,8 @@ import jwt, {VerifyErrors, Secret} from 'jsonwebtoken'
 import User from '../schemas/User'
 const { SECRET } = process.env
 
+import multer, { Multer } from 'multer';
+
 interface User {
     _id:string
     name:string
