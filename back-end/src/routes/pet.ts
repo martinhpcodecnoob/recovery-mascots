@@ -5,7 +5,7 @@ import { verifyAccessToken } from "../middlewares/middlewares";
 
 const petRouter = express.Router()
 
-petRouter.post('/create',createPet)
+petRouter.post('/create',verifyAccessToken,createPet)
 petRouter.patch('/update',updatePet)
 petRouter.delete('/delete',deletePet)
 petRouter.get('/getPets/',verifyAccessToken,getPetsByUserId)
