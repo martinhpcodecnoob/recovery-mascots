@@ -52,27 +52,20 @@ const CreatePet = ({ session }: { session: Session }) => {
 
   const onSubmitCreatePet = async (data: PetModel) => {
     setLoading(true);
-    
+
     try {
       const formData = new FormData();
 
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
-    if (file) {
-      console.log("Nombre dek file", file)
-      formData.append("file", file);
-    }
+      if (file) {
+        formData.append("file", file);
+      }
 
-    // Realiza la mutación con los datos del FormData
-    await createPetMutation(formData);
-      if (isSuccess) {
-        toast.success("Mascota creada exitosamente");
-      }
-      if (isError) {
-        toast.error(error.message);
-      }
+       createPetMutation(formData);
+      
     } catch (error) {
       toast.error(error ? error.toString() : "Error del servidor");
       console.error("Error al intentar crear una mascota", error);
@@ -83,14 +76,14 @@ const CreatePet = ({ session }: { session: Session }) => {
 
   const receiveDataFromChild = async (file: File | undefined) => {
     if (file) {
-      setFile(file)
+      setFile(file);
     } else {
-      setFile(null)
+      setFile(null);
     }
-};
+  };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full p-4 bg-hero_ligth_secondary">
+    <div className="flex flex-col justify-center items-center w-full p-4 bg-hero_ligth_secondary md:bg-hero_primary">
       <ToastContainer
         position="top-center"
         autoClose={1000}
@@ -112,49 +105,48 @@ const CreatePet = ({ session }: { session: Session }) => {
         <h1 className="bg-hero_secondary text-xl text-center text-white font-semibold w-full h-8">
           Crear mascota
         </h1>
-        <div className="flex flex-row w-full h-full">
-
-        <div className="w-full h-full">
-          <div className="flex flex-col justify-center items-center w-full mt-4">
-            <Name
-              control={createPetControl}
-              errors={createPetErrors}
-              name="name"
-            />
-            <Age
-              control={createPetControl}
-              errors={createPetErrors}
-              name="age"
-            />
+        <div className="flex flex-col md:flex-row w-full h-full">
+          <div className="w-full h-full">
+            <div className="flex flex-col justify-center items-center w-full mt-4">
+              <Name
+                control={createPetControl}
+                errors={createPetErrors}
+                name="name"
+              />
+              <Age
+                control={createPetControl}
+                errors={createPetErrors}
+                name="age"
+              />
+            </div>
+            <div className="flex flex-col justify-center items-center w-full">
+              <Breed
+                control={createPetControl}
+                errors={createPetErrors}
+                name="breed"
+              />
+              <Weight
+                control={createPetControl}
+                errors={createPetErrors}
+                name="weight"
+              />
+            </div>
+            <div className="flex flex-col justify-center items-center w-full">
+              <Description
+                control={createPetControl}
+                errors={createPetErrors}
+                name="description"
+              />
+              <Category
+                control={createPetControl}
+                errors={createPetErrors}
+                name="category"
+              />
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
-            <Breed
-              control={createPetControl}
-              errors={createPetErrors}
-              name="breed"
-            />
-            <Weight
-              control={createPetControl}
-              errors={createPetErrors}
-              name="weight"
-            />
+          <div className="w-full">
+            <Image sendDataToParent={receiveDataFromChild} />
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
-            <Category
-              control={createPetControl}
-              errors={createPetErrors}
-              name="category"
-            />
-            <Description
-              control={createPetControl}
-              errors={createPetErrors}
-              name="description"
-            />
-          </div>
-        </div>
-        <div className="w-full h-full">
-          <Image sendDataToParent={receiveDataFromChild}/>
-        </div>
         </div>
         <button
           type="submit"

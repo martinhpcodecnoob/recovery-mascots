@@ -129,7 +129,7 @@ const Image = ({
           <div>
             <img src={imageUrl} alt="Imagen seleccionada" />
             <MdOutlineChangeCircle
-              className="absolute bottom-0 left-0 w-12 h-12 cursor-pointer"
+              className="absolute bottom-5/6 left-1/2 w-12 h-12 cursor-pointer text-hero_secondary"
               onClick={() => {
                 if (inputFileRef.current) {
                   inputFileRef.current.click();
@@ -154,14 +154,14 @@ const Image = ({
         ) : (
           <div className="flex flex-col items-center justify-center">
             <IoIosAddCircleOutline
-              className="w-24 h-24 cursor-pointer"
+              className="w-24 h-24 cursor-pointer text-hero_secondary"
               onClick={() => {
                 if (inputFileRef.current) {
                   inputFileRef.current.click();
                 }
               }}
             />
-            <p className="mt-4">Agrega una imagen de tu mascota</p>
+            <p className="mt-4 text-center text-hero_secondary">Agrega una imagen de tu mascota</p>
             <input
               ref={inputFileRef}
               type="file"
