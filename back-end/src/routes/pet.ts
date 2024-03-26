@@ -1,6 +1,7 @@
 import express from "express";
 import multer from 'multer';
 import {createPet, updatePet, deletePet, getPetsByUserId, createPetImage} from '../controllers/pet'
+import { verifyAccessToken } from "../middlewares/middlewares";
 
 const petRouter = express.Router()
 
@@ -10,7 +11,9 @@ const upload = multer({dest: 'uploads/', storage: multer.memoryStorage()})
 petRouter.post('/create', upload.single('file'), createPet)
 petRouter.patch('/update',updatePet)
 petRouter.delete('/delete',deletePet)
-petRouter.get('/getPets/:userId',getPetsByUserId)
+//petRouter.get('/getPets/:userId',getPetsByUserId)
 petRouter.post('/image', upload.single('file'), createPetImage)
+petRouter.get('/getPets/',verifyAccessToken,getPetsByUserId)
+
 
 export default petRouter;

@@ -68,8 +68,8 @@ export const createPet = async (req: Request, res: Response) => {
 
 export const getPetsByUserId = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params;
-
+        const {_id} = (req as any).user
+        const userId = _id.toString()
         const pets = await Pet.find({ userId });
 
         res.status(200).json(pets);
