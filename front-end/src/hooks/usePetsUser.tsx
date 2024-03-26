@@ -2,7 +2,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { InterfacePetsUser } from "../interfaces/pets.interface";
 
-const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URI
+/* const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URI  */
+const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const getPetUser = async(userId:string,accessToken:string):Promise<{ status: number; data?: InterfacePetsUser[]; error?: string }> => {
     try {
@@ -22,12 +23,12 @@ const getPetUser = async(userId:string,accessToken:string):Promise<{ status: num
         }
     } catch (error) {
         console.error(
-            "Error del servidor al intentar traer los pets",
+            "Error del servidor al intentar traer las mascotas de un usuario",
             error
         );
         return {
             status: 500,
-            error: "Error del servidor al intentar traer los pets",
+            error: "Error del servidor al intentar traer las mascotas de un usuario",
         };
     }
 }

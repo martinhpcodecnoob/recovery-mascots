@@ -1,5 +1,5 @@
 import { UserLogin, UserRegister } from "@/interfaces/auth.interface";
-import { PetCreate } from "@/interfaces/pet.interface";
+import { PetCreate, PetImage } from "@/interfaces/pet.interface";
 
 const URL_BACK = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -61,6 +61,28 @@ export const createPet  = async (input: PetCreate): Promise<{status:number, data
             body:JSON.stringify(input)
         })
 
+        const data = await response.json()
+        return {
+            status: response.status,
+            data
+        }
+    } catch (error) {
+        console.error("Error del servidor al intentar crear una mascota.", error);
+        return {
+            status: 500,
+            error: "Error del servidor al intentar crear una mascota.",
+        };
+    }
+}
+
+export const createImage  = async (input: FormData): Promise<{status:number, data?:any, error?:string}> => {
+    try {
+
+        const response = await fetch(`${URL_BACK}/api/pets/pet/image`,{
+            method:'POST',
+            body: input,
+
+        })
         const data = await response.json()
         return {
             status: response.status,

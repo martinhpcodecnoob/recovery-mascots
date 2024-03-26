@@ -8,7 +8,7 @@ const NavBarHomeTwo = () => {
     const [refDivElement, setRefDivElement] = useState<HTMLDivElement | null>(null)
     
     return (
-        <div className='md:invisible z-50 fixed w-full h-14 shadow-xl bg-hero_primary flex justify-between items-center'>
+        <div className='md:invisible z-50 fixed w-full h-16 shadow-xl bg-hero_primary flex justify-between items-center'>
             <div className='ml-3 text-identipet text-[1.3rem] font-bold'>Identipet</div>
             <Modal
                 visible={visible}

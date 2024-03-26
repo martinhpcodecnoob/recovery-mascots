@@ -1,8 +1,17 @@
-import React from 'react'
-import CreatePet from './components/CreatePet'
+import React from "react";
+import CreatePet from "./components/CreatePet";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
-const page = () => {
-  return <CreatePet />
+async function getDataSession() {
+  const data = await getServerSession(authOptions);
+
+  return data;
 }
 
-export default page
+const page = async () => {
+  const sessionData = await getDataSession();
+  if (sessionData) return <CreatePet session={sessionData} />;
+};
+
+export default page;

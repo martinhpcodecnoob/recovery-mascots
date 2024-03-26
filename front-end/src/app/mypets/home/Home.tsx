@@ -8,6 +8,7 @@ import CardCategory from './components/CardCategory'
 import CardsCats from './components/CardsCats'
 import CardsDogs from './components/CardsDogs'
 import { Session } from 'next-auth'
+
 import { usePetsUser } from '@/hooks/usePetsUser'
 import { InterfacePetsUser } from '@/interfaces/pets.interface'
 
@@ -23,6 +24,7 @@ export interface InterCatsandDogs {
 const Home = ({session}:{session:Session}) => {
     const {id, accessToken} = session.user
     const [category, setCategory] = useState<StateCategories | undefined>({cats:true})
+
     const {data:info, isFetched, isLoading, isError} = usePetsUser(id,accessToken)
     
     if (info) {

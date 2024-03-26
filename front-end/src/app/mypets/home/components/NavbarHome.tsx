@@ -14,7 +14,7 @@ const NavbarHome = () => {
     // console.log();
     
     return (
-        <nav className='fixed z-50 mdx:invisible w-full h-14 shadow-xl bg-hero_ligth_secondary'>
+        <nav className='fixed z-50 mdx:invisible w-full h-16 shadow-xl bg-hero_ligth_secondary'>
             <div className="flex justify-between items-center h-full w-full px-4 2xl:px-16">
                 {/* <Link href={"/"}>
                     <Image
