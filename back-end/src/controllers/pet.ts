@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Pet from '../schemas/Pet'
-import { petSchemaValidation, updatePetValidation, deletePetValidation, createImageSchemaValidation } from "../utils/joi/pet-validator";
+import { petSchemaValidation, updatePetValidation, deletePetValidation, deleteImageSchemaValidation } from "../utils/joi/pet-validator";
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
@@ -10,13 +10,17 @@ cloudinary.config({
 });
 
 export const createPet = async (req: Request, res: Response) => {
+
+    interface CloudinaryUploadResult {
+        secure_url: string;
+        public_id: string;
+    }
+
     try {
-        const file = req.file;
-        if (!file || !file.buffer) {
-            console.error({
-                error: "Archivo no encontrado o vacío",
-            });
-            return res.status(400).json({ error: "Archivo no encontrado o vacío" });
+        const files = req.files as Express.Multer.File[];
+        if (!files || files.length === 0) {
+            console.error({ error: 'Archivos no encontrados o vacíos' });
+            return res.status(400).json({ error: 'Archivos no encontrados o vacíos' });
         }
         const validationResult = petSchemaValidation.validate(req.body);
 
@@ -28,29 +32,26 @@ export const createPet = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Datos de registro de mascota no válidos" });
         }
         const { name, age, breed, weight, category, description, userId } = validationResult.value;
-        let images: any[] = [];
+        let images: { cloudinary_url: string; publicId: string }[] = [];
 
-        if (file) {
+        for (const file of files) {
             const buffer = file.buffer;
-            const cloudinaryResult: any = await new Promise((resolve, reject) => {
-                cloudinary.uploader
-                    .upload_stream({}, (err, result) => {
-                        if (err) {
-                            reject(err)
-                        }
-                        resolve(result)
-                    })
-                    .end(buffer)
-            })
+            const cloudinaryResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
+                cloudinary.uploader.upload_stream({}, (err, result) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(result as CloudinaryUploadResult);
+                }).end(buffer);
+            });
 
             const image = {
                 cloudinary_url: cloudinaryResult.secure_url,
-                publicId: cloudinaryResult.public_id
+                publicId: cloudinaryResult.public_id,
             };
 
             images.push(image);
         }
-
         const newPet = new Pet({
             name,
             age,
@@ -73,7 +74,7 @@ export const createPet = async (req: Request, res: Response) => {
 
 export const getPetsByUserId = async (req: Request, res: Response) => {
     try {
-        const {_id} = (req as any).user
+        const { _id } = (req as any).user
         const userId = _id.toString()
         const pets = await Pet.find({ userId });
 
@@ -154,58 +155,51 @@ export const deletePet = async (req: Request, res: Response) => {
     }
 };
 
-export const createPetImage = async (req: Request, res: Response) => {
+export const deletePetImage = async (req: Request, res: Response) => {
+
+    interface CloudinaryDeleteResult {
+        secure_url: string;
+        public_id: string;
+    }
+
     try {
-
-        const file = req.file;
-
-        if (!file || !file.buffer) {
-            console.error({
-                error: "Archivo no encontrado o vacío",
-            });
-            return res.status(400).json({ error: "Archivo no encontrado o vacío" });
-        }
-
-        const validationResult = createImageSchemaValidation.validate(req.body);
-
+        const validationResult = deleteImageSchemaValidation.validate(req.body);
         if (validationResult.error) {
             console.error({
-                error: "Datos para la creacion de imagen invalidos",
+                error: "Datos de eliminación de imagen de mascota no válidos",
                 details: validationResult.error.details,
             });
-            return res.status(400).json({ error: "Datos para la creacion de imagen invalidos" });
+            return res.status(400).json({ error: "Datos de eliminación de imagen de mascota no válidos" });
         }
 
-        const { petId } = validationResult.value;
-        const currentPet = await Pet.findByIdAndUpdate(petId);
-        if (!currentPet) {
-            console.error({
-                error: "Imagen o formato de imagen invalido",
+        const { petId, publicId } = validationResult.value;
+
+        const pet = await Pet.findById(petId);
+
+        if (!pet) {
+            return res.status(404).json({ error: 'Mascota no encontrada' });
+        }
+        const imageIndex = pet.images.findIndex((image) => image.publicId === publicId);
+
+        if (imageIndex === -1) {
+            return res.status(404).json({ error: 'Imagen no encontrada en la mascota' });
+        }
+        const deletedImage = pet.images.splice(imageIndex, 1)[0];
+
+        await new Promise<CloudinaryDeleteResult>((resolve, reject) => {
+            cloudinary.uploader.destroy(deletedImage.publicId, (err, result) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(result as CloudinaryDeleteResult);
             });
-            return res.status(400).json({ error: "Imagen o formato de imagen invalido" });
-        }
+        });
 
-        const buffer = file.buffer;
+        await pet.save();
 
-        const cloudinaryResult = await new Promise((resolve, reject) => {
-            cloudinary.uploader
-                .upload_stream({}, (err, result) => {
-                    if (err) {
-                        reject(err)
-                    }
-                    resolve(result)
-                })
-                .end(buffer)
-        })
-        //@ts-ignore
-        currentPet.images.push(cloudinaryResult.secure_url);
-
-        await currentPet.save();
-
-        //@ts-ignore
-        res.status(201).json(cloudinaryResult.secure_url);
+        res.status(200).json({ message: 'Imagen eliminada con éxito', deletedImage });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al intentar crear la imagen de la mascota.' });
+        res.status(500).json({ error: 'Error al intentar eliminar la imagen de la mascota' });
     }
-}
+};

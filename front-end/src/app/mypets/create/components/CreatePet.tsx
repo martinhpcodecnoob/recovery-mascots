@@ -30,7 +30,7 @@ const CreatePet = ({ session }: { session: Session }) => {
   const accessToken = session?.user?.accessToken || "";
   const submitButtonRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<File []| null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
 
   const {
     mutate: createPetMutation,
@@ -61,13 +61,12 @@ const CreatePet = ({ session }: { session: Session }) => {
       });
 
       if (files && files.length > 0) {
-        files.forEach((image, index) => {
-          formData.append(`image${index}`, image);
+        files.forEach((image) => {
+          formData.append('files', image);
         });
       }
 
-       createPetMutation({formData, userId, accessToken});
-      
+      createPetMutation({ formData, userId, accessToken });
     } catch (error) {
       toast.error(error ? error.toString() : "Error del servidor");
       console.error("Error al intentar crear una mascota", error);

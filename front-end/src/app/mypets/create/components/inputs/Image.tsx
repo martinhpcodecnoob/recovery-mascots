@@ -52,7 +52,7 @@ const Image = ({
                 slidesPerView={"auto"}
               >
                 {selectedImages.map((image, index) => (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} className="flex justify-center items-center">
                     <img
                       src={URL.createObjectURL(image)}
                       alt={`Selected Image ${index + 1}`}
@@ -70,6 +70,7 @@ const Image = ({
             <input
               ref={inputFileRef}
               type="file"
+              name="files"
               accept="image/*"
               multiple
               className="hidden"
@@ -99,6 +100,7 @@ const Image = ({
             <input
               ref={inputFileRef}
               type="file"
+              name="files"
               multiple
               accept="image/*"
               className="hidden"
