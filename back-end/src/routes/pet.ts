@@ -7,7 +7,7 @@ const petRouter = express.Router()
 //si uso memoria se puede acceder al buffer, si uso el disco duro me dan la ruta y tengo que hacerlo manualmente
 const upload = multer({dest: 'uploads/', storage: multer.memoryStorage()})
 
-petRouter.post('/create',verifyAccessToken , upload.single('file'), createPet)
+petRouter.post('/create',verifyAccessToken , upload.array('files'), createPet)
 petRouter.patch('/update',updatePet)
 petRouter.delete('/delete',deletePet)
 //petRouter.get('/getPets/:userId',getPetsByUserId)

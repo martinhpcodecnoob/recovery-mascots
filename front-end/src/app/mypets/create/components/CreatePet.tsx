@@ -30,7 +30,7 @@ const CreatePet = ({ session }: { session: Session }) => {
   const accessToken = session?.user?.accessToken || "";
   const submitButtonRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File []| null>(null);
 
   const {
     mutate: createPetMutation,
@@ -60,8 +60,10 @@ const CreatePet = ({ session }: { session: Session }) => {
         formData.append(key, value);
       });
 
-      if (file) {
-        formData.append("file", file);
+      if (files && files.length > 0) {
+        files.forEach((image, index) => {
+          formData.append(`image${index}`, image);
+        });
       }
 
        createPetMutation({formData, userId, accessToken});
@@ -74,11 +76,11 @@ const CreatePet = ({ session }: { session: Session }) => {
     }
   };
 
-  const receiveDataFromChild = async (file: File | undefined) => {
+  const receiveDataFromChild = async (file: File[] | undefined) => {
     if (file) {
-      setFile(file);
+      setFiles(file);
     } else {
-      setFile(null);
+      setFiles(null);
     }
   };
 
