@@ -30,6 +30,7 @@ export const deletePetValidation = Joi.object({
     id: Joi.string().required(),
 });
 
-export const createImageSchemaValidation = Joi.object({
+export const deleteImageSchemaValidation = Joi.object({
     petId: Joi.string().required(),
+    publicId: Joi.string().required(),
 });

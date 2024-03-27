@@ -3,6 +3,17 @@ import { PetModel } from "../models/pet";
 
 const PetCategoryEnum = ["Perro", "Gato"];
 
+const imageSchema = new Schema({
+    cloudinary_url: {
+        type: String,
+        required: true,
+    },
+    publicId: {
+        type: String,
+        required: true,
+    }
+});
+
 export const petSchema:Schema<PetModel> = new Schema({
     name: {
         type: String,
@@ -31,7 +42,7 @@ export const petSchema:Schema<PetModel> = new Schema({
         required: true,
     },
     images: {
-        type: [String],
+        type: [imageSchema],
         required: true,
     },
     status: {

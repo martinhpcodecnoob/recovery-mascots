@@ -7,6 +7,11 @@ enum PetCategory {
     Gato = "Gato"
 }
 
+interface PetImage {
+    cloudinary_url: string;
+    publicId: string;
+}
+
 export interface Pet {
     _id?: any;
     name: string;
@@ -15,7 +20,7 @@ export interface Pet {
     weight: Number;
     category: PetCategory;
     description: string;
-    images: [string];
+    images: PetImage[];
     status: typeof statusEnum[number];
     userId: Schema.Types.ObjectId;
 }

@@ -11,10 +11,22 @@ interface InterfacReturnData {
   error?: string;
 }
 
-const createPet = async (formData: FormData): Promise<InterfacReturnData> => {
+const createPet = async ({
+  formData,
+  userId,
+  accessToken,
+}: {
+  formData: FormData;
+  userId: string;
+  accessToken: string;
+}): Promise<InterfacReturnData> => {
   try {
     const response = await fetch(`${URL_BACK}/api/pets/pet/create`, {
       method: "POST",
+      headers: {
+        "X-User-Id": `${userId}`,
+        Authorization: `${accessToken}`,
+      },
       body: formData,
     });
 
@@ -38,8 +50,8 @@ const useCreatePet = () => {
   return useMutation({
     mutationFn: createPet,
     onSuccess: (dataReturn: InterfacReturnData) => {
-        const successfulStatusCodes = [200, 201, 203];
-        if (successfulStatusCodes.includes(dataReturn.status)) {
+      const successfulStatusCodes = [200, 201, 203];
+      if (successfulStatusCodes.includes(dataReturn.status)) {
         toast.success("Mascota creada exitosamente");
       } else {
         toast.error(dataReturn.error || "Error del servidor");
