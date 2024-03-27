@@ -27,7 +27,7 @@ import {
 
 const CreatePet = ({ session }: { session: Session }) => {
   const userId = session?.user?.id || "";
-
+  const accessToken = session?.user?.accessToken || "";
   const submitButtonRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -64,7 +64,7 @@ const CreatePet = ({ session }: { session: Session }) => {
         formData.append("file", file);
       }
 
-       createPetMutation(formData);
+       createPetMutation({formData, userId, accessToken});
       
     } catch (error) {
       toast.error(error ? error.toString() : "Error del servidor");

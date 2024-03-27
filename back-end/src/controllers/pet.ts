@@ -28,11 +28,11 @@ export const createPet = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Datos de registro de mascota no válidos" });
         }
         const { name, age, breed, weight, category, description, userId } = validationResult.value;
-        let images: string[] = [];
+        let images: any[] = [];
 
         if (file) {
             const buffer = file.buffer;
-            const cloudinaryResult = await new Promise((resolve, reject) => {
+            const cloudinaryResult: any = await new Promise((resolve, reject) => {
                 cloudinary.uploader
                     .upload_stream({}, (err, result) => {
                         if (err) {
@@ -42,8 +42,13 @@ export const createPet = async (req: Request, res: Response) => {
                     })
                     .end(buffer)
             })
-            //@ts-ignore
-            images.push(cloudinaryResult.secure_url);
+
+            const image = {
+                cloudinary_url: cloudinaryResult.secure_url,
+                publicId: cloudinaryResult.public_id
+            };
+
+            images.push(image);
         }
 
         const newPet = new Pet({
