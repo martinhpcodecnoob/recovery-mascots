@@ -5,7 +5,6 @@ import { authOptions } from "@/utils/authOptions";
 
 async function getDataSession() {
   const data = await getServerSession(authOptions);
-
   return data;
 }
 

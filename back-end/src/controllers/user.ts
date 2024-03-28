@@ -1,9 +1,9 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 import User from '../schemas/User'
 
-export const createUser = async(req:Request,res:Response) => {
+export const createUser = async (req: Request, res: Response) => {
     try {
-        const {name,cellphone} = req.body
+        const { name, cellphone } = req.body
         const newUser = new User({
             name,
             cellphone
@@ -29,13 +29,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        const user = await User.findById(id);
-
-        if (!user) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
+        const user = (req as any).user
         res.status(200).json(user);
     } catch (error) {
         console.error(error);
